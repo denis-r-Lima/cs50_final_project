@@ -1,2 +1,4 @@
 flask
 werkzeug
+flask_cors
+Flask-JWT
