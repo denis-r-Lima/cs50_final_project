@@ -67,7 +67,9 @@ const Login: React.FC = () => {
         )
         console.log(response)
       }catch({response}){
-        setMessage(response.data.message)
+        if(response){
+          setMessage(response.data.message)
+        }
       }
       
     }

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 
-// import { Container } from './styles';
+import { Container } from './styles';
 
 const Scheduler: React.FC = () => {
 
   const [ isPage, setIsPage ] = useState<string>('loading')
+
+  const [ data, setData ] = useState<any>({})
+
 
   const location = useLocation().pathname.substring(1)
 
@@ -18,6 +21,7 @@ const Scheduler: React.FC = () => {
     try{
       const response = await axios.post(url, form)
       setIsPage('true')
+      setData(response.data.page)
       console.log(response.data)
     }
     catch(err){
@@ -27,25 +31,25 @@ const Scheduler: React.FC = () => {
   }
   useEffect(() => {
     apiCall(`${process.env.REACT_APP_API_URL}/personalpage`)
-  })
+  }, [])
 
 
   return (
-  <>
+  <Container>
     {isPage === 'loading'? (
-      <h3>Loading</h3>
+      <h2>Loading</h2>
     ):
     isPage === 'true' ? (
-      <h1>
-        {location}
-      </h1>
+      <h2>
+        {JSON.stringify(data)}
+      </h2>
       ):
     (
-      <p>
+      <h2>
         404: Page not found
-      </p>
+      </h2>
     )}
-  </>
+  </Container>
   )
 }
 
