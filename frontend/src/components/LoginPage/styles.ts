@@ -66,7 +66,7 @@ export const StyledForm = styled.form`
   flex-direction: column;
   gap: 1rem;
 
-  & > p{
+  & > p {
     color: red;
     font-size: 0.8rem;
   }
@@ -74,6 +74,7 @@ export const StyledForm = styled.form`
   & > fieldset {
     border: 1px solid #999;
     border-radius: 0.5rem;
+    position: relative;
 
     & > legend {
       padding: 0.3rem;
@@ -87,12 +88,38 @@ export const StyledForm = styled.form`
       background-color: transparent;
       outline: none;
       padding: 0.3rem 0.625rem;
+      position: relative;
 
-      &::placeholder{
+      &:focus {
+        & ~ div {
+          display: block;
+        }
+      }
+
+      &::placeholder {
         color: #999;
       }
     }
+
+    & > div {
+      display: none;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      background-color: #fff;
+      font-size: 0.625rem;
+      width: 10rem;
+      padding: 0.625rem;
+      border: 1px solid #aaa;
+      border-radius: 0.3rem;
+      transform: translate(calc(100% + 1rem), -60%);
+      
+      &>ul{
+        padding-left: 1rem;
+      }
+    }
   }
+
   & > button {
     padding: 0.625rem;
     background-color: #333;

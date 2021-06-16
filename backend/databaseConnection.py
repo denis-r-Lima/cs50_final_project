@@ -8,7 +8,7 @@ class SQL:
     def connect(self, url):
         self._url = url
 
-    def execute(self,query, arg = ()):
+    def execute(self, query, arg=()):
         with sqlite3.connect(self._url) as con:
             cur = con.cursor()
 
@@ -20,14 +20,13 @@ class SQL:
                     columns = []
                     data = []
 
-
-                    #Get columns name 
+                    if not rows:
+                        return data
+                    # Get columns name
                     for column in cur.description:
                         columns.append(column[0])
 
-                    print(columns)
-
-                    #Transform rows in dictionaries
+                    # Transform rows in dictionaries
                     for row in rows:
                         dict = {}
                         for i in range(len(row)):
@@ -47,10 +46,7 @@ class SQL:
             except OperationalError as e:
                 print(e)
             except:
-                print(sys.exc_info()[0])
-                
+                print(sys.exc_info())
 
     def test(self):
         print(self.url)
-                
-

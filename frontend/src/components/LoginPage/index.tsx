@@ -1,5 +1,6 @@
-import axios from 'axios'
 import React, { useRef, useState } from 'react'
+import { useHistory } from 'react-router'
+import api from '../../utils/api'
 import InputCheck from '../../utils/inputChecker'
 
 import Header from '../Header'
@@ -22,6 +23,8 @@ const Login: React.FC = () => {
 
   const loginDiv = useRef<HTMLDivElement>(null)
   const registerDiv = useRef<HTMLDivElement>(null)
+
+  let history = useHistory()
 
   const registerFormHandler = () => {
     registerDiv.current?.classList.contains('show')
@@ -59,38 +62,43 @@ const Login: React.FC = () => {
       form.append('confirmation', confirmation as string)
       form.append('pageName', pageName as string)
 
-
-      try{
-         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/register`,
-          form
-        )
+      try {
+        const response = await api.post('/register', form)
         console.log(response)
-      }catch({response}){
-        if(response){
+        registerFormHandler()
+      } catch ({ response }) {
+        if (response) {
           setMessage(response.data.message)
+        } else {
+          setMessage(
+            'It was not possible to complete the request, try again later'
+          )
         }
       }
-      
     }
   }
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     let form = new FormData()
-    form.append('username', username as string)
+    form.append('email', email as string)
     form.append('password', password as string)
 
-    try{
-      const response = await axios.post(
-       `${process.env.REACT_APP_API_URL}/login`,
-       form
-     )
-     console.log(response)
-   }catch({response}){
-     setMessage(response.data.message)
-   }
-   
+    try {
+      const response = await api.post('/login', form)
+
+      if (response.status === 200) {
+        history.push('/')
+      }
+    } catch ({ response }) {
+      if(response) setMessage(response.data.message)
+      else{
+        setMessage(
+          'It was not possible to complete the request, try again later'
+        )
+
+      }
+    }
   }
 
   const validateInputs = (
@@ -128,14 +136,14 @@ const Login: React.FC = () => {
           <h2>Login</h2>
           <StyledForm onSubmit={e => handleLogin(e)}>
             <fieldset>
-              <legend>Username</legend>
+              <legend>Email</legend>
               <input
                 autoComplete="off"
                 autoFocus
                 type="text"
                 name="username"
                 required
-                onChange={e => setUsername(e.currentTarget.value)}
+                onChange={e => setEmail(e.currentTarget.value)}
               />
             </fieldset>
             <fieldset>
@@ -162,7 +170,7 @@ const Login: React.FC = () => {
 
         <StyledForm onSubmit={e => handleRegister(e)}>
           <fieldset>
-            <legend>Username</legend>
+            <legend>First name</legend>
             <input
               required
               autoComplete="off"
@@ -190,6 +198,16 @@ const Login: React.FC = () => {
               name="password"
               onChange={e => setPassword(e.currentTarget.value)}
             />
+            <div>
+              <p>Your password must contain:</p>
+              <ul>
+                <li>At least 8 characters</li>
+                <li>One lower case letter</li>
+                <li>One upper case letter</li>
+                <li>One special character (!@#$%^&*)</li>
+                <li>One number</li>
+              </ul>
+            </div>
           </fieldset>
           <fieldset>
             <legend>Confirm Password</legend>
