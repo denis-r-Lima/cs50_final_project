@@ -19,7 +19,7 @@ type UserAppointmentProps = {
 }
 
 type AppointmentForTheDay = {
-  time: string
+  time: number[]
   client: string
   phone: string
 }
@@ -43,18 +43,17 @@ const UserAppointment: React.FC<UserAppointmentProps> = ({
     .map(d => {
       const date = new Date(d.date)
 
-      const time =
-        `${date.getHours()}:` + `${date.getMinutes()}`.padStart(2, '0')
+      const time = [date.getHours(), date.getMinutes()]
       const client = d.client
       const phone = d.phone
       return { time, client, phone }
     })
     .sort((a, b) => {
-      const [aHours, aMinutes] = a.time.split(':')
-      const [bHours, bMinutes] = b.time.split(':')
+      const [aHours, aMinutes] = a.time
+      const [bHours, bMinutes] = b.time
 
-      if (Number(aHours) > Number(bHours)) return 1
-      if (Number(aMinutes) > Number(bMinutes)) return 1
+      if (aHours > bHours) return 1
+      if (aMinutes > bMinutes) return 1
 
       return -1
     })
@@ -71,13 +70,24 @@ const UserAppointment: React.FC<UserAppointmentProps> = ({
           style={plusDate === 0 ? { color: '#aaa', cursor: 'not-allowed' } : {}}
         />
         <h3>{transformDate(date)}</h3>
-        <HiArrowCircleRight onClick={() => setDate(current => current + 1)} />
+        <HiArrowCircleRight onClick={() => setDate(current => {
+          return current === 30 ? current : current + 1
+        })} 
+        style={plusDate === 30 ? { color: '#aaa', cursor: 'not-allowed' } : {}}/>
       </DisplayDate>
       <AppointmentList>
         {forTheDay.length > 0 ? (
           forTheDay.map((item, index) => (
             <li key={index}>
-              <div>{item.time}</div>
+              <div>
+                {item.time[0] === 12
+                  ? `12:00 PM`
+                  : item.time[0] < 12
+                  ? `${item.time[0]}`.padStart(2, '0') + ":" +
+                    `${item.time[1]}`.padStart(2, '0') + ' AM'
+                  : `${item.time[0] - 12}`.padStart(2, '0') + ":" +
+                    `${item.time[1]}`.padStart(2, '0') + ' PM'}
+              </div>
               <div>
                 <p>
                   <b>Client: </b>

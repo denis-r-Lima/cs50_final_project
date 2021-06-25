@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const DisplayDate = styled.div`
   width: 25rem;
   padding: 0.625rem 2rem;
-  background-color: rgba(200, 200, 200, 0.7);
+  background-color: #cdcdcd;
   border-radius: 0.625rem;
   display: flex;
   flex-direction: row;
@@ -22,7 +22,7 @@ export const AppointmentList = styled.ul`
   margin: 1rem 0;
 
   & > li:nth-child(even) {
-    background-color: rgba(220, 220, 220, 0.6);
+    background-color: rgba(230, 230, 230, 0.5);
   }
 
   & > li {

@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: grid;
   grid-template-rows: 5rem auto 3rem;
   place-items: center;
+  overflow-y: auto;
 
   & > div:first-child{
     width: 100vw;

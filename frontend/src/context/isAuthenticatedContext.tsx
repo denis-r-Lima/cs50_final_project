@@ -18,7 +18,6 @@ type IsAuthenticatedContextProviderProps = {
 type UserType = {
   id: number
   name: string
-  page_name: string
 }
 
 export const IsAuthenticatedContextProvider: React.FC<IsAuthenticatedContextProviderProps> =

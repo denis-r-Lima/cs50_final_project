@@ -55,7 +55,7 @@ const TimeModal: React.FC<TimeModalProps> = ({
     e.preventDefault()
     clientModalRef.current?.classList.remove('display')
     document.querySelectorAll('input').forEach(input => (input.value = ''))
-
+    setPhone('')
     onSubmit()
   }
 

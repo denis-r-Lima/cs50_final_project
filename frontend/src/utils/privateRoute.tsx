@@ -28,7 +28,12 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, ...rest }) => {
   }
 
   useEffect(() => {
-    apiCall()
+    if(!isAuthenticated){
+      apiCall()
+      return
+    }
+    setLoading(false)
+
   }, [])
 
   return (

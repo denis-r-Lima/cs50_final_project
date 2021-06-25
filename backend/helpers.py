@@ -27,7 +27,7 @@ def login_required(f):
             user_id = payload['user_id']
 
             user = db.execute(
-                'SELECT username FROM users WHERE id=:id', {'id': user_id})
+                'SELECT name FROM users WHERE id=:id', {'id': user_id})
 
             if not user:
                 return redirect(REDIRECT_URL)

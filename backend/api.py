@@ -66,13 +66,23 @@ def login():
         expireDate = datetime.datetime.utcnow() + datetime.timedelta(hours=24)
 
         response.set_cookie('auth_token', token.decode(
-            'UTF-8'), expires=expireDate, samesite="strict")
+            'UTF-8'), expires=expireDate, samesite="strict", httponly=True)
 
         return response
 
     except:
         print(sys.exc_info())
         return make_response({"message": "Server error"}, 500)
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    response = make_response({'message': 'You are no longer logged in'}, 200)
+
+    response.set_cookie('auth_token', "", expires=datetime.datetime.utcnow(), samesite="strict", httponly=True)
+
+    return response
 
 
 @app.route("/register", methods=["POST"])
@@ -97,7 +107,7 @@ def register():
 
         try:
             db.execute(
-                'INSERT INTO pages (user_id, page_name) VALUES (?, ?)', (id, pageName.lower()))
+                'INSERT INTO pages (user_id, page_name, page_url) VALUES (?, ?, ?)', (id, pageName, pageName.lower()))
 
         except IntegrityError:
 
@@ -125,7 +135,7 @@ def personalPage():
 
     try:
         page_result = db.execute(
-            'SELECT user_id FROM pages WHERE page_name=:page', {"page": page.lower()})
+            'SELECT user_id, page_name FROM pages WHERE page_url=:page', {"page": page.lower()})
 
 
         if len(page_result) < 1:
@@ -133,7 +143,7 @@ def personalPage():
 
         appointments = db.execute("SELECT client, phone, date FROM appointments WHERE user_id=:id", {"id": page_result[0]['user_id']})
 
-        return {"appointments": appointments, "user_id": page_result[0]['user_id']}
+        return {"appointments": appointments, "user_id": page_result[0]['user_id'], "page_name": page_result[0]['page_name']}
     except:
         print(sys.exc_info())
         return make_response({"message": "Page not found!"}, 404)
@@ -153,7 +163,7 @@ def check_auth():
         user_id = payload['user_id']
 
         username = db.execute(
-            'SELECT name, id, page_name FROM users JOIN pages ON users.id = pages.user_id WHERE id=:id', {'id': user_id})
+            'SELECT name, id FROM users JOIN pages ON users.id = pages.user_id WHERE id=:id', {'id': user_id})
 
         if not username:
             return make_response({"Message": "You don't have authorization to access"}, 401)
@@ -169,9 +179,7 @@ def check_auth():
 def schedule():
 
     user_id = request.args.get('user_id')
-
-    print(user_id)
-
+    
     if user_id:
 
         try:

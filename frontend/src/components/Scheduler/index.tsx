@@ -23,6 +23,7 @@ interface ApiResponse extends AxiosResponse {
   data: {
     appointments: ApiAppointmentsResponse[]
     user_id: string
+    page_name: string
   }
 }
 
@@ -31,6 +32,8 @@ const Scheduler: React.FC = () => {
 
   const [data, setData] = useState<Appointments[]>([] as Appointments[])
   const [userId, setUserId] = useState<string>('')
+  const [pageName, setPageName] = useState<string>('')
+
 
   const location = useLocation().pathname.substring(1)
 
@@ -41,6 +44,7 @@ const Scheduler: React.FC = () => {
     try {
       const response = (await api.post(url, form)) as ApiResponse
       setUserId(response.data.user_id)
+      setPageName(response.data.page_name)
       setData(
         response.data.appointments.map(item => {
           return {
@@ -67,9 +71,9 @@ const Scheduler: React.FC = () => {
       ) : isPage === 'true' ? (
         <>
           <div>
-            <h1>{location} Booking page</h1>
+            <h1>{pageName} booking page</h1>
           </div>
-          <Calendar userId={userId} appointments={data} apiCall={apiCall} />
+          <Calendar userId={userId} appointments={data} apiCall={apiCall}/>
           <div>
             <span>
               Powered by:{' '}

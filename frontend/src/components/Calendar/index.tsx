@@ -84,12 +84,15 @@ const Calendar: React.FC<CalendarProps> = ({ userId, appointments, apiCall }) =>
 
     try{
       await api.post('/make_appointment', form)
-      await apiCall('/personalpage')
       setMessage('Your appointment was successfully made')
     }catch{
       setMessage('It was not possible to complete your appointment')
     }
-
+    setTimeout(() => {
+      setMessage(null)
+    }, 10000);
+    
+    await apiCall('/personalpage')
   }
 
   return (

@@ -29,6 +29,11 @@ export const Container = styled.div`
         }
     }
   }
+
+  & h4{
+    text-align: center;
+    margin-bottom: 1rem;
+  }
 `
 
 export const Modal = styled.div`

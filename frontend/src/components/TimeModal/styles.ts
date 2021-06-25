@@ -2,8 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   width: fit-content;
-  height: 80vh;
-  max-height: 80vh;
+  max-height: 90vh;
   background-color: #fff;
   padding: 2rem;
   margin: 10vh auto;
@@ -31,8 +30,12 @@ export const Container = styled.div`
 
 
     &.occupied{
-      opacity: 0.5;
+      opacity: 0.3;
       cursor: not-allowed;
+      &:hover{
+        background-color: transparent;
+        color: #333;
+      }
     }
   }
 
