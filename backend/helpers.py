@@ -22,7 +22,7 @@ def login_required(f):
             return redirect(REDIRECT_URL)
 
         try:
-            payload = jwt.decode(token, os.environ['SECRET_KEY'])
+            payload = jwt.decode(token, os.environ['SECRET_KEY'], algorithms=["HS256"])
 
             user_id = payload['user_id']
 

@@ -1,12 +1,11 @@
 import React, { useRef } from 'react'
-import { FiSettings, FiCalendar, FiUser } from 'react-icons/fi'
+import { FiCalendar, FiUser } from 'react-icons/fi'
 import { useHistory } from 'react-router-dom'
 
 import {
   BurgerBar,
   BurgerMenu,
   Menu,
-  EngineMenuItem,
   GeneralMenuItem,
 } from './styles'
 
@@ -44,29 +43,19 @@ const SideMenu: React.FC = () => {
           </div>
           <div>Appointments</div>
         </GeneralMenuItem>
-        <EngineMenuItem onClick={() => clickLink('/settings')}>
+        {/* <EngineMenuItem onClick={() => clickLink('/settings')}>
           <div>
             <FiSettings />
           </div>
           <div>Settings</div>
-        </EngineMenuItem>
+        </EngineMenuItem> */}
         <GeneralMenuItem onClick={() => clickLink('/myaccount')}>
           <div>
             <FiUser />
           </div>
           <div>My Account</div>
         </GeneralMenuItem>
-        {/* <QrCodeDiv>
-          <a
-            href={`http://localhost:3000/${user.page_url}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <QRCode value={`http://localhost:3000/${user.page_url}`} />
-          </a>
-          <span>Use the QRcode above to advertise your appointment page.</span>
-        </QrCodeDiv> */}
-      </Menu>
+              </Menu>
     </>
   )
 }

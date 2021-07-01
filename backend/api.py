@@ -1,6 +1,5 @@
 from sqlite3.dbapi2 import IntegrityError
-from flask import Flask, request, make_response, session, redirect
-from flask_session import Session
+from flask import Flask, request, make_response
 from flask_cors import CORS
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -18,7 +17,6 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["CORS_SUPPORTS_CREDENTIALS"] = True
-Session(app)
 CORS(app, origins=["http://localhost:3000"],
      methods=["GET", "POST"], supports_credentials=True)
 
@@ -59,14 +57,13 @@ def login():
             return make_response({"message": "Wrong username or password"}, 403)
 
         token = jwt.encode({'user_id': user[0]['id'], 'exp':  datetime.datetime.utcnow(
-        ) + datetime.timedelta(hours=24)}, os.environ['SECRET_KEY'])
+        ) + datetime.timedelta(hours=24)}, os.environ['SECRET_KEY'], algorithm="HS256")
 
         response = make_response({'message': 'Success'}, 200)
 
         expireDate = datetime.datetime.utcnow() + datetime.timedelta(hours=24)
 
-        response.set_cookie('auth_token', token.decode(
-            'UTF-8'), expires=expireDate, samesite="strict", httponly=True)
+        response.set_cookie('auth_token', token, expires=expireDate, samesite="strict", httponly=True)
 
         return response
 
@@ -159,7 +156,7 @@ def check_auth():
         return make_response({"Message": "You don't have authorization to access"}, 401)
 
     try:
-        payload = jwt.decode(token, os.environ['SECRET_KEY'])
+        payload = jwt.decode(token, os.environ['SECRET_KEY'], algorithms=["HS256"])
         user_id = payload['user_id']
 
         username = db.execute(
@@ -221,6 +218,50 @@ def make_appointment():
         return make_response({ "message" : 'It was not possible to complete your request'}, 422)
 
 
+@app.route("/accountInfo")
+@login_required
+def account_info():
+    user_id = request.args.get('user_id')
+
+    if user_id:
+
+        try:
+            data = db.execute(
+                "SELECT page_name, page_url FROM pages WHERE user_id=:id", {"id": user_id})
+
+            if not data:
+                data = {}
+            return {"account": data}
+
+        except:
+            print(sys.exc_info())
+            return {"account": {}}
+
+
+    return {"account": {}}
+
+@app.route("/updateAccount", methods=["PUT"])
+@login_required
+def update_account():
+    user_id = request.form.get("userId")
+    page_name = request.form.get("pageName")
+
+    print(user_id, page_name)
+
+    if user_id:
+        
+        try:
+            db.execute(
+                "UPDATE pages SET page_name=? WHERE user_id=?", [page_name, user_id]
+            )
+            
+            response = make_response({"message": "Updated successfully"}, 200)
+            return response
+
+        except:
+            print(sys.exc_info())
+            response = make_response({"message": "Fail to update"}, 401)
+            return response
 
 
 @app.route("/users")
