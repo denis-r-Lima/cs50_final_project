@@ -14,10 +14,10 @@ type Appointments = {
 type CalendarProps = {
   userId: string
   appointments: Appointments[]
-  apiCall: (url:string) => Promise<void>
+  addAppointment: (data: Appointments) => void
 }
 
-const Calendar: React.FC<CalendarProps> = ({ userId, appointments, apiCall }) => {
+const Calendar: React.FC<CalendarProps> = ({ userId, appointments, addAppointment }) => {
   const [date, setDate] = useState<Date>(new Date())
   const [client, setClient] = useState<string>('')
   const [phone, setPhone] = useState<string>('')
@@ -92,7 +92,7 @@ const Calendar: React.FC<CalendarProps> = ({ userId, appointments, apiCall }) =>
       setMessage(null)
     }, 10000);
     
-    await apiCall('/personalpage')
+    addAppointment({client, phone, date})
   }
 
   return (

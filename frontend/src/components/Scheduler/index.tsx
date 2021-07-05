@@ -60,6 +60,10 @@ const Scheduler: React.FC = () => {
       setIsPage('false')
     }
   }
+
+  const addAppointment = (appointment: Appointments) => {
+    setData(current => [...current, appointment])
+  }
   useEffect(() => {
     apiCall('/personalpage')
   }, [])
@@ -73,7 +77,7 @@ const Scheduler: React.FC = () => {
           <div>
             <h1>{pageName} booking page</h1>
           </div>
-          <Calendar userId={userId} appointments={data} apiCall={apiCall}/>
+          <Calendar userId={userId} appointments={data} addAppointment={addAppointment}/>
           <div>
             <span>
               Powered by:{' '}
