@@ -64,6 +64,7 @@ const Scheduler: React.FC = () => {
   const addAppointment = (appointment: Appointments) => {
     setData(current => [...current, appointment])
   }
+  
   useEffect(() => {
     apiCall('/personalpage')
   }, [])
