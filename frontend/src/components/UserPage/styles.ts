@@ -5,9 +5,9 @@ export const Container = styled.div`
   height: 100vh;
 
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   display: grid;
-  grid-template-rows: 5rem auto;
+  grid-template-rows: 5rem calc(100vh - 5rem);
   grid-template-columns: 100%;
 
   background-color: #eee;

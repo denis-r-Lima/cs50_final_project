@@ -1,36 +1,26 @@
 import styled from 'styled-components';
 
 export const Content = styled.div`
-  min-width: 30vw;  
+  min-width: 40vw;  
   padding: 3rem 3rem;
   background-color: #f9faf9;
   border-radius: 0.625rem;
   box-shadow: 0px 0px 3px 1px  rgba(200, 200, 200, 0.6);
-  margin: 0.625rem auto;
   height: fit-content;
 `;
 
 export const ItemDiv = styled.div`
   padding: 1rem 1.5rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 4rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  place-items: center start;
 
-  & > div:first-child{
-    position: relative;
 
-    &::after{
-      content: '';
-      position: absolute;
-      top: 0;
-      right: -2rem;
-      width: 1px;
-      background-color: #ddd;
-      height: 150%;
-      transform: translate( 100% , -25%);
-    }
+  & > div:last-child{
+    display: flex;
+    justify-content: flex-end;
+    place-self: center end;
 
   }
 
@@ -42,11 +32,13 @@ export const ItemDiv = styled.div`
   & input{
     background-color: transparent;
     padding: 0.625rem;
+    width: 100%;
     text-align: right;
-    border-width: 0 0 1px 0;
+    border-width: 0 0 1px 1px;
     border-color: #ddd;
     border-style: solid;
     outline: none;
+    border-radius: 0 0 0 0.625rem;
   }
 `
 

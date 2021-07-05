@@ -66,21 +66,21 @@ const MyAccount: React.FC = () => {
       <SideMenu />
       <Content>
         <ItemDiv>
-          <div>Scheduler page</div>
+          <div>Booking page:</div>
           <div>
-            <a href={`/${accountData.page_url}`} target="_blank" rel="noreferrer">Your Scheduler Page</a>
+            <a href={`/${accountData.page_url}`} target="_blank" rel="noreferrer">Your Booking Page</a>
           </div>
         </ItemDiv>
         <H1 />
         <ItemDiv>
-          <div>QR code</div>
+          <div>QR code:</div>
           <div>
             <QRCode value={`http://localhost:3000/${accountData.page_url}`}/>
           </div>
         </ItemDiv>
         <H1 />
         <ItemDiv>
-          <div>Business name</div>
+          <div>Business name:</div>
           <div>
             <input type="text" name="name" id="businessName" value={accountData.page_name} 
             onChange={e => setAccountData(current => {return {...current, page_name: e.target.value}})} />

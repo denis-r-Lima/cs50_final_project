@@ -246,8 +246,6 @@ def update_account():
     user_id = request.form.get("userId")
     page_name = request.form.get("pageName")
 
-    print(user_id, page_name)
-
     if user_id:
         
         try:
