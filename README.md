@@ -2,6 +2,8 @@
 ## About the project
 This project allow you to create a personal page where your costumers can make appointments.  
 
+[Video](https://youtu.be/EKZmLp_YQ9g)
+
 ### Requirements
 
 - python 3.8+

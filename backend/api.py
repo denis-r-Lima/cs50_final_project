@@ -18,7 +18,7 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_PERMANENT"] = False
 app.config["CORS_SUPPORTS_CREDENTIALS"] = True
 CORS(app, origins=["http://localhost:3000"],
-     methods=["GET", "POST"], supports_credentials=True)
+     methods=["GET", "POST", "PUT"], supports_credentials=True)
 
 
 db = SQL()
@@ -262,25 +262,25 @@ def update_account():
             return response
 
 
-@app.route("/users")
-def users():
+# @app.route("/users")
+# def users():
 
-    users = db.execute("SELECT * FROM users")
-    return {"users": users}
-
-
-@app.route("/pages")
-def pages():
-
-    pages = db.execute("SELECT * FROM pages")
-    return {"pages": pages}
+#     users = db.execute("SELECT * FROM users")
+#     return {"users": users}
 
 
-@app.route("/appointments")
-def appointments():
+# @app.route("/pages")
+# def pages():
 
-    appointments = db.execute("SELECT * FROM appointments")
-    return {"appointments": appointments}
+#     pages = db.execute("SELECT * FROM pages")
+#     return {"pages": pages}
+
+
+# @app.route("/appointments")
+# def appointments():
+
+#     appointments = db.execute("SELECT * FROM appointments")
+#     return {"appointments": appointments}
 
 
 def errorhandler(e):
