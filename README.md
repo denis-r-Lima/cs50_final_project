@@ -4,8 +4,8 @@ This project allow you to create a personal page where your costumers can make a
 
 ### Requirements
 
-python 3.8+
-node 14+
+- python 3.8+
+- node 14+
 
 ## Getting started
 
@@ -27,7 +27,7 @@ node 14+
 
 7. install all dependencies `yarn or npm install`
 
-## Running the project
+## :rocket: Running the project
 
 1. Open one terminal window and go to backend directory
 
@@ -37,10 +37,4 @@ node 14+
 
 4. Run react `yarn start or npm run start`
 
-
-
 [running tests](https://facebook.github.io/create-react-app/docs/running-tests) 
-
-
-
-

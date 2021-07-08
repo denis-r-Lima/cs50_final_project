@@ -10,6 +10,15 @@ const GlobalStyle = createGlobalStyle`
         user-select: none;
     }
 
+    input{
+        -webkit-user-select: text;
+        -khtml-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+        user-select: text;
+    }
+
     body{
         font-family: 'Roboto', sans-serif;
         width: 100vw;
