@@ -2,7 +2,7 @@
 ## About the project
 This project allow you to create a personal page where your costumers can make appointments.  
 
-[Video](https://youtu.be/EKZmLp_YQ9g)
+[Project demonstration video](https://youtu.be/EKZmLp_YQ9g)
 
 ### Requirements
 
@@ -38,5 +38,3 @@ This project allow you to create a personal page where your costumers can make a
 3. Open another terminal window and go to frontend directory
 
 4. Run react `yarn start or npm run start`
-
-[running tests](https://facebook.github.io/create-react-app/docs/running-tests) 
