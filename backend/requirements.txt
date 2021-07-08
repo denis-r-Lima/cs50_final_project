@@ -2,3 +2,4 @@ flask
 werkzeug
 flask_cors
 PyJWT
+python-dotenv
