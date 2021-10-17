@@ -1,84 +1,75 @@
-import React, { useLayoutEffect, useRef } from 'react'
-import { FiCalendar, FiUser } from 'react-icons/fi'
-import { useHistory } from 'react-router-dom'
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { FiCalendar, FiUser } from "react-icons/fi";
+import { useHistory } from "react-router-dom";
 
-import {
-  BurgerBar,
-  BurgerMenu,
-  Menu,
-  GeneralMenuItem,
-} from './styles'
+import { BurgerBar, BurgerMenu, Menu, GeneralMenuItem } from "./styles";
+
+const MENU_ITEMS = [
+  {
+    label: "Appointments",
+    url: "/",
+    icon: <FiCalendar />,
+  },
+  {
+    label: "My Account",
+    url: "/myaccount",
+    icon: <FiUser />,
+  },
+];
 
 const SideMenu: React.FC = () => {
+  const [isOpened, setIsOpened] = useState<boolean>(false);
 
-  const menuDiv = useRef<HTMLDivElement>(null)
-  const burgerMenu = useRef<HTMLDivElement>(null)
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const onBurgerClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.classList.contains('opened')
-      ? e.currentTarget.classList.remove('opened')
-      : e.currentTarget.classList.add('opened')
+  const onBurgerClick = () => {
+    setIsOpened((prevState) => !prevState);
+  };
 
-    menuDiv.current?.classList.contains('show')
-      ? menuDiv.current?.classList.remove('show')
-      : menuDiv.current?.classList.add('show')
-  }
+  const clickLink = (url: string) => () => {
+    history.push(url);
+  };
 
-  useLayoutEffect(() => {
-    document.addEventListener('mouseup', (e) => {
-      const target = burgerMenu.current as HTMLDivElement
-      if(menuDiv.current?.classList.contains('show') 
-      && !e.composedPath().includes(target)){
-        menuDiv.current?.classList.remove('show')
-        target.classList.remove('opened')
+  const handleMouseUp = useCallback(
+    (e: MouseEvent) => {
+      if (isOpened && !e.composedPath().includes(menuRef.current!)) {
+        setIsOpened(false);
       }
-    })
+    },
+    [isOpened]
+  );
 
-    return document.removeEventListener('mouseup', (e) => {
-      const target = burgerMenu.current as HTMLDivElement
-      if(menuDiv.current?.classList.contains('show') 
-      && !e.composedPath().includes(target)){
-        menuDiv.current?.classList.remove('show')
-        target.classList.remove('opened')
-      }
-    })
-  }, [])
+  useEffect(() => {
+    window.addEventListener("mouseup", handleMouseUp);
 
-  const clickLink = (url: string) => {
-    history.push(url)
-  }
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [handleMouseUp]);
 
   return (
     <>
-      <BurgerMenu onClick={e => onBurgerClick(e)} ref={burgerMenu}>
+      <BurgerMenu onClick={onBurgerClick} className={isOpened ? "opened" : ""}>
         <BurgerBar />
         <BurgerBar />
         <BurgerBar />
       </BurgerMenu>
-      <Menu ref={menuDiv}>
-        <GeneralMenuItem onClick={() => clickLink('/')}>
-          <div>
-            <FiCalendar />
-          </div>
-          <div>Appointments</div>
-        </GeneralMenuItem>
-        {/* <EngineMenuItem onClick={() => clickLink('/settings')}>
-          <div>
-            <FiSettings />
-          </div>
-          <div>Settings</div>
-        </EngineMenuItem> */}
-        <GeneralMenuItem onClick={() => clickLink('/myaccount')}>
-          <div>
-            <FiUser />
-          </div>
-          <div>My Account</div>
-        </GeneralMenuItem>
-              </Menu>
+      <Menu className={isOpened ? "show" : ""} ref={menuRef}>
+        {MENU_ITEMS.map((item) => (
+          <GeneralMenuItem
+            onClick={clickLink(item.url)}
+            className={history.location.pathname === item.url ? "current" : ""}
+            key={`${item.label} - ${item.url}`}
+          >
+            <div>{item.icon}</div>
+            <div>{item.label}</div>
+          </GeneralMenuItem>
+        ))}
+      </Menu>
     </>
-  )
-}
+  );
+};
 
-export default SideMenu
+export default SideMenu;

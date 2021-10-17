@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from "styled-components";
 
 export const BurgerMenu = styled.div`
   position: absolute;
@@ -28,7 +28,7 @@ export const BurgerMenu = styled.div`
       }
     }
   }
-`
+`;
 
 export const BurgerBar = styled.div`
   width: 1.5rem;
@@ -36,10 +36,11 @@ export const BurgerBar = styled.div`
   background-color: #fff;
   border-radius: 1rem;
   transition: all linear 0.3s;
-`
+`;
 
 export const Menu = styled.div`
   position: absolute;
+  left: 0;
   top: 0;
   bottom: 0;
   width: 15vw;
@@ -60,7 +61,7 @@ export const Menu = styled.div`
     text-align: justify;
     padding: 1rem;
   }
-`
+`;
 
 export const QrCodeDiv = styled.div`
   text-align: center;
@@ -69,7 +70,7 @@ export const QrCodeDiv = styled.div`
   display: grid;
   gap: 1rem;
   place-items: center;
-`
+`;
 
 export const MenuItem = styled.div`
   display: grid;
@@ -87,11 +88,15 @@ export const MenuItem = styled.div`
   &:hover {
     background-color: rgba(220, 220, 220, 0.3);
   }
-`
+
+  &.current {
+    background-color: rgba(220, 220, 220, 0.1);
+  }
+`;
 const EngineAnimation = keyframes`
     0%{transform: rotate(0deg);}
     100%{transform: rotate(360deg);}
-`
+`;
 
 const GeneralAnimation = keyframes`
     0%{transform: rotate(0deg);}
@@ -99,7 +104,7 @@ const GeneralAnimation = keyframes`
     50%{transform: rotate(0deg);}
     75%{transform: rotate(-10deg);}
     100%{transform: rotate(0deg);}
-`
+`;
 
 export const EngineMenuItem = styled(MenuItem)`
   &:hover {
@@ -109,15 +114,15 @@ export const EngineMenuItem = styled(MenuItem)`
       animation-iteration-count: infinite;
     }
   }
-`
+`;
 
 export const GeneralMenuItem = styled(MenuItem)`
   &:hover {
     & svg {
       animation-name: ${GeneralAnimation};
-      animation-duration: 1.5s;
+      animation-duration: 1s;
       animation-iteration-count: infinite;
       animation-timing-function: linear;
     }
   }
-`
+`;
